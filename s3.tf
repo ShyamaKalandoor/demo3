@@ -19,6 +19,19 @@ resource "aws_s3_bucket" "s3_bucket" {
   }
 }
 
+
+resource "aws_s3_bucket" "s3_bucket_log_bucket" {
+  bucket = "s3_bucket-log-bucket"
+}
+
+resource "aws_s3_bucket_logging" "s3_bucket" {
+  bucket = aws_s3_bucket.s3_bucket.id
+
+  target_bucket = aws_s3_bucket.s3_bucket_log_bucket.id
+  target_prefix = "log/"
+}
+
+
 # Output bucket URL
 output "bucket_url" {
   value = "https://${var.bucket_name}.s3.amazonaws.com/"
